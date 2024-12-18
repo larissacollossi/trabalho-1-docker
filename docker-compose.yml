@@ -1,0 +1,60 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend
+    container_name: guess-game-backend
+    environment:
+      FLASK_APP: /app/run.py
+      FLASK_DB_TYPE: postgres
+      FLASK_DB_USER: postgres
+      FLASK_DB_NAME: postgres
+      FLASK_DB_PASSWORD: p7Q9R1qGOA6S
+      FLASK_DB_HOST: guess-game-database
+      FLASK_DB_PORT: 5432
+    restart: always
+    tty: true
+    volumes:
+      - ./guess_game:/app
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+
+  postgres:
+    image: postgres:latest
+    container_name: guess-game-database
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: p7Q9R1qGOA6S
+      POSTGRES_DB: postgres
+    restart: always
+    tty: true
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend
+    container_name: guess-game-frontend
+    environment:
+      REACT_APP_API_URL: http://localhost:5000
+    volumes:
+      - ./guess_game:/app
+    restart: always
+    tty: true
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
