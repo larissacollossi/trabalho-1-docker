@@ -7,8 +7,6 @@ WORKDIR /app
 # Copiando o arquivo de requisitos para o container
 COPY guess_game/frontend/package*.json ./
 
-RUN export REACT_APP_BACKEND_URL=http://localhost:5000
-
 # Instalando as dependências do frontend
 RUN npm ci
 
@@ -16,7 +14,7 @@ RUN npm ci
 COPY guess_game/frontend/. ./
 
 # Gerando o build do frontend
-RUN npm run build
+RUN REACT_APP_BACKEND_URL=http://localhost:5000 npm run build
 
 # Usando a imagem do nginx
 FROM nginx:latest 

@@ -44,8 +44,6 @@ services:
       context: .
       dockerfile: frontend
     container_name: guess-game-frontend
-    environment:
-      REACT_APP_API_URL: http://localhost:5000
     volumes:
       - ./guess_game:/app
     restart: always
