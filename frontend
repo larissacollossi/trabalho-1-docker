@@ -25,7 +25,4 @@ COPY --from=build /app/build /usr/share/nginx/html
 # Configurando o nginx
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
 
-# Expondo a porta que o frontend vai rodar
-EXPOSE 80/tcp
-
 CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
