@@ -4,14 +4,11 @@ FROM python:3.8-slim
 # Definindo o diretório de trabalho no container
 WORKDIR /app
 
-# Copiando o arquivo de requisitos para o container
-COPY guess_game/requirements.txt ./
+# Copiando o código da aplicação
+COPY guess_game /app
 
 # Instalando as dependências do backend
 RUN pip install --no-cache-dir -r requirements.txt
-
-# Copiando o código da aplicação
-COPY guess_game/* ./
 
 # Expondo a porta que o flask vai rodar
 EXPOSE 5000
