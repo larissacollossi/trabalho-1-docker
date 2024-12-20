@@ -14,7 +14,8 @@ services:
     restart: always
     tty: true
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     networks:
       - app-network
 
@@ -24,6 +25,11 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: p7Q9R1qGOA6S
       POSTGRES_DB: postgres
+    healthcheck:
+      test: "pg_isready -U postgres"
+      interval: 5s
+      timeout: 5s
+      retries: 5
     restart: always
     tty: true
     ports:
